@@ -15,12 +15,12 @@ function App() {
     }
   }, [editingId]);
 
-  const handleSubmit = (e) => {
+  const addTodo = (e) => {
     e.preventDefault();
     if (task.trim()) {
       setTodo((prev) => [
-        ...prev,
         { id: Date.now(), text: task.trim(), completed: false },
+        ...prev,
       ]);
 
       setTask("");
@@ -61,7 +61,7 @@ function App() {
           <div className="col-6">
             <div className="card">
               <div className="card-body">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={addTodo}>
                   <div className="input-group">
                     <input
                       value={task}
@@ -77,67 +77,65 @@ function App() {
                 </form>
 
                 <ul className="list-group mt-4">
-                  {todo
-                    .sort((a, b) => b.id - a.id)
-                    .map((item) => (
-                      <li className="d-flex fs-4 mt-2" key={item.id}>
-                        <div className="form-check me-3">
-                          {/* {checkbox} */}
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id={`todo-${item.id}`}
-                            checked={item.completed}
-                            onChange={() => handleToggleComplete(item.id)}
-                          />
-                        </div>
-                        {editingId === item.id ? (
-                          <input
-                            ref={inputRef}
-                            value={editText}
-                            type="text"
-                            className="form-control"
-                            onChange={(e) => setEditText(e.target.value)}
-                            onBlur={() => handleEdit(item.id)}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                handleEdit(item.id);
-                              } else if (e.key === "Escape") {
-                                setEditingId(null);
-                                setEditText("");
-                              }
-                            }}
-                          />
-                        ) : (
-                          <label
-                            className="form-check-label me-auto"
-                            htmlFor={`todo-${item.id}`}
-                          >
-                            <span
-                              className={`${
-                                item.completed
-                                  ? "text-decoration-line-through text-muted"
-                                  : ""
-                              }`}
-                            >
-                              {item.text}
-                            </span>
-                          </label>
-                        )}
-                        <button
-                          className="border-0 bg-white me-2 bi bi-pencil-square"
-                          onClick={() => {
-                            setEditingId(item.id);
-                            setEditText(item.text);
+                  {todo.map((item) => (
+                    <li className="d-flex fs-4 mt-2" key={item.id}>
+                      <div className="form-check me-3">
+                        {/* {checkbox} */}
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id={`todo-${item.id}`}
+                          checked={item.completed}
+                          onChange={() => handleToggleComplete(item.id)}
+                        />
+                      </div>
+                      {editingId === item.id ? (
+                        <input
+                          ref={inputRef}
+                          value={editText}
+                          type="text"
+                          className="form-control"
+                          onChange={(e) => setEditText(e.target.value)}
+                          onBlur={() => handleEdit(item.id)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              handleEdit(item.id);
+                            } else if (e.key === "Escape") {
+                              setEditingId(null);
+                              setEditText("");
+                            }
                           }}
-                          disabled={item.completed}
-                        ></button>
-                        <button
-                          className="border-0 bg-white bi bi-trash-fill"
-                          onClick={() => handleDelete(item.id)}
-                        ></button>
-                      </li>
-                    ))}
+                        />
+                      ) : (
+                        <label
+                          className="form-check-label me-auto"
+                          htmlFor={`todo-${item.id}`}
+                        >
+                          <span
+                            className={`${
+                              item.completed
+                                ? "text-decoration-line-through text-muted"
+                                : ""
+                            }`}
+                          >
+                            {item.text}
+                          </span>
+                        </label>
+                      )}
+                      <button
+                        className="border-0 bg-white me-2 bi bi-pencil-square"
+                        onClick={() => {
+                          setEditingId(item.id);
+                          setEditText(item.text);
+                        }}
+                        disabled={item.completed}
+                      ></button>
+                      <button
+                        className="border-0 bg-white bi bi-trash-fill"
+                        onClick={() => handleDelete(item.id)}
+                      ></button>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
