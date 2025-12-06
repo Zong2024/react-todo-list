@@ -41,6 +41,7 @@ function App() {
       setEditingId(null);
       setEditText("");
     } else {
+      // 忽略空編輯動作，直接退出不更動內文
       setEditingId(null);
       setEditText("");
     }
