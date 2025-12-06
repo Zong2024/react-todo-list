@@ -129,6 +129,7 @@ function App() {
                           setEditingId(item.id);
                           setEditText(item.text);
                         }}
+                        // 完成任務後不得在編輯內文
                         disabled={item.completed}
                       ></button>
                       <button
