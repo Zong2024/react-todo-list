@@ -97,7 +97,7 @@ function App() {
                           type="text"
                           className="form-control"
                           onChange={(e) => setEditText(e.target.value)}
-                          onBlur={() => handleEdit(item.id)}
+                          onBlur={() => setEditingId(null)}
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
                               handleEdit(item.id);
