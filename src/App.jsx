@@ -90,82 +90,88 @@ function App() {
                   </div>
                 </form>
 
-                <div className="my-4">
-                  <label htmlFor="filter-select">Status</label>
-                  <select
-                    className="form-select mt-1"
-                    value={filterState}
-                    id="filter-select"
-                    onChange={(e) => {
-                      setFilterState(e.target.value);
-                    }}
-                  >
-                    <option value="all">全部</option>
-                    <option value="completed">已完成</option>
-                    <option value="uncompleted">未完成</option>
-                  </select>
-                </div>
-
                 <ul className="list-group mt-4">
-                  {filterTodo().map((item) => (
-                    <li className="d-flex fs-4 mt-2" key={item.id}>
-                      <div className="form-check me-3">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id={`todo-${item.id}`}
-                          checked={item.completed}
-                          onChange={() => handleToggleComplete(item.id)}
-                        />
-                      </div>
-                      {editingId === item.id ? (
-                        <input
-                          ref={inputRef}
-                          value={editText}
-                          type="text"
-                          className="form-control"
-                          onChange={(e) => setEditText(e.target.value)}
-                          onBlur={() => setEditingId(null)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              handleEdit(item.id);
-                            } else if (e.key === "Escape") {
-                              setEditingId(null);
-                              setEditText("");
-                            }
+                  {todo.length < 1 ? (
+                    <h4 className="text-center">目前沒有任務</h4>
+                  ) : (
+                    <>
+                      <div className="my-4">
+                        <label htmlFor="filter-select">Status</label>
+                        <select
+                          className="form-select mt-1"
+                          value={filterState}
+                          id="filter-select"
+                          onChange={(e) => {
+                            setFilterState(e.target.value);
                           }}
-                        />
-                      ) : (
-                        <label
-                          className="form-check-label me-auto"
-                          htmlFor={`todo-${item.id}`}
                         >
-                          <span
-                            className={`${
-                              item.completed
-                                ? "text-decoration-line-through text-muted"
-                                : ""
-                            }`}
-                          >
-                            {item.text}
-                          </span>
-                        </label>
-                      )}
-                      <button
-                        className="border-0 bg-white me-2 bi bi-pencil-square"
-                        onClick={() => {
-                          setEditingId(item.id);
-                          setEditText(item.text);
-                        }}
-                        // 完成任務後不得在編輯內文
-                        disabled={item.completed}
-                      ></button>
-                      <button
-                        className="border-0 bg-white bi bi-trash-fill"
-                        onClick={() => handleDelete(item.id)}
-                      ></button>
-                    </li>
-                  ))}
+                          <option value="all">全部</option>
+                          <option value="completed">已完成</option>
+                          <option value="uncompleted">未完成</option>
+                        </select>
+                      </div>
+
+                      {filterTodo().map((item) => (
+                        <li className="d-flex fs-4 mt-2" key={item.id}>
+                          <div className="form-check me-3">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              id={`todo-${item.id}`}
+                              checked={item.completed}
+                              onChange={() => handleToggleComplete(item.id)}
+                            />
+                          </div>
+                          {editingId === item.id ? (
+                            <input
+                              ref={inputRef}
+                              value={editText}
+                              type="text"
+                              className="form-control"
+                              onChange={(e) => setEditText(e.target.value)}
+                              onBlur={() => setEditingId(null)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  handleEdit(item.id);
+                                } else if (e.key === "Escape") {
+                                  setEditingId(null);
+                                  setEditText("");
+                                }
+                              }}
+                            />
+                          ) : (
+                            <label
+                              className="form-check-label me-auto"
+                              htmlFor={`todo-${item.id}`}
+                            >
+                              <span
+                                className={`${
+                                  item.completed
+                                    ? "text-decoration-line-through text-muted"
+                                    : ""
+                                }`}
+                              >
+                                {item.text}
+                              </span>
+                            </label>
+                          )}
+                          <button
+                            className="border-0 bg-white me-2 bi bi-pencil-square"
+                            onClick={() => {
+                              setEditingId(item.id);
+                              setEditText(item.text);
+                            }}
+                            // 完成任務後不得在編輯內文
+                            disabled={item.completed}
+                          ></button>
+                          <button
+                            className="border-0 bg-white bi bi-trash-fill"
+                            onClick={() => handleDelete(item.id)}
+                          ></button>
+                        </li>
+                      ))}
+                    </>
+                  )}
                 </ul>
               </div>
             </div>
