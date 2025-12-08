@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 function App() {
   const [task, setTask] = useState("");
@@ -6,6 +6,8 @@ function App() {
 
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
+
+  const [filterState, setFilterState] = useState("all");
 
   const inputRef = useRef(null);
 
@@ -54,6 +56,17 @@ function App() {
     setTodo(toggleComplete);
   };
 
+  const filterTodo = useMemo(() => {
+    switch (filterState) {
+      case "completed":
+        return todo.filter((item) => item.completed === true);
+      case "uncompleted":
+        return todo.filter((item) => item.completed === false);
+      default:
+        return todo;
+    }
+  }, [todo, filterState]);
+
   return (
     <>
       <div className="container ">
@@ -76,12 +89,20 @@ function App() {
                     </button>
                   </div>
                 </form>
-
+                <select
+                  className="form-select bg-white border border-gray-300 rounded-md px-3 py-2 text-gray-700  w-full my-4"
+                  onChange={(e) => {
+                    setFilterState(e.target.value);
+                  }}
+                >
+                  <option value="all">全部</option>
+                  <option value="completed">已完成</option>
+                  <option value="uncompleted">未完成</option>
+                </select>
                 <ul className="list-group mt-4">
-                  {todo.map((item) => (
+                  {filterTodo.map((item) => (
                     <li className="d-flex fs-4 mt-2" key={item.id}>
                       <div className="form-check me-3">
-                        {/* {checkbox} */}
                         <input
                           className="form-check-input"
                           type="checkbox"
