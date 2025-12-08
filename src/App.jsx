@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function App() {
   const [task, setTask] = useState("");
@@ -56,7 +56,7 @@ function App() {
     setTodo(toggleComplete);
   };
 
-  const filterTodo = useMemo(() => {
+  const filterTodo = () => {
     switch (filterState) {
       case "completed":
         return todo.filter((item) => item.completed === true);
@@ -65,7 +65,7 @@ function App() {
       default:
         return todo;
     }
-  }, [todo, filterState]);
+  };
 
   return (
     <>
@@ -89,18 +89,25 @@ function App() {
                     </button>
                   </div>
                 </form>
-                <select
-                  className="form-select bg-white border border-gray-300 rounded-md px-3 py-2 text-gray-700  w-full my-4"
-                  onChange={(e) => {
-                    setFilterState(e.target.value);
-                  }}
-                >
-                  <option value="all">全部</option>
-                  <option value="completed">已完成</option>
-                  <option value="uncompleted">未完成</option>
-                </select>
+
+                <div className="my-4">
+                  <label htmlFor="filter-select">Status</label>
+                  <select
+                    className="form-select mt-1"
+                    value={filterState}
+                    id="filter-select"
+                    onChange={(e) => {
+                      setFilterState(e.target.value);
+                    }}
+                  >
+                    <option value="all">全部</option>
+                    <option value="completed">已完成</option>
+                    <option value="uncompleted">未完成</option>
+                  </select>
+                </div>
+
                 <ul className="list-group mt-4">
-                  {filterTodo.map((item) => (
+                  {filterTodo().map((item) => (
                     <li className="d-flex fs-4 mt-2" key={item.id}>
                       <div className="form-check me-3">
                         <input
