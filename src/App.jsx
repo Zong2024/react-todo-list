@@ -4,19 +4,19 @@ import InputTask from "./component/InputTask";
 import FilterSelect from "./component/FilterSelect";
 
 function App() {
-  const [task, setTask] = useState("");
+  const [newTaskText, setNewTaskText] = useState("");
   const [todos, setTodos] = useState([]);
   const [filterState, setFilterState] = useState("all");
 
   const addTodo = (e) => {
     e.preventDefault();
-    if (task.trim()) {
+    if (newTaskText.trim()) {
       setTodos((prev) => [
-        { id: Date.now(), text: task.trim(), completed: false },
+        { id: Date.now(), text: newTaskText.trim(), completed: false },
         ...prev,
       ]);
 
-      setTask("");
+      setNewTaskText("");
     }
   };
 
@@ -58,8 +58,8 @@ function App() {
               <div className="card-body">
                 <InputTask
                   addTodo={addTodo}
-                  task={task}
-                  setTask={setTask}
+                  newTaskText={newTaskText}
+                  setNewTaskText={setNewTaskText}
                 ></InputTask>
 
                 <ul className="list-group mt-4">

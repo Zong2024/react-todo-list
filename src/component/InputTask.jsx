@@ -1,14 +1,14 @@
-const InputTask = ({ addTodo, task, setTask }) => {
+const InputTask = ({ addTodo, newTaskText, setNewTaskText }) => {
   return (
     <>
       <form onSubmit={addTodo}>
         <div className="input-group">
           <input
-            value={task}
+            value={newTaskText}
             type="text"
             className="form-control"
             placeholder="輸入新任務..."
-            onChange={(e) => setTask(e.target.value)}
+            onChange={(e) => setNewTaskText(e.target.value)}
           />
           <button className="btn btn-primary" type="submit">
             新增
