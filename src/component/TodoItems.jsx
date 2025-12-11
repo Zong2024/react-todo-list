@@ -15,12 +15,15 @@ const TodoItems = ({ todo, onUpdate, onDelete, onToggle }) => {
   };
 
   const saveEdit = (id) => {
-    if (editText.trim()) {
-      onUpdate(id, editText.trim());
+    const newText = editText.trim();
+    if (newText === todo.text || !newText) {
       setIsEditing(false);
       setEditText("");
-    } else {
-      // 忽略空編輯動作，直接退出不更動內文
+      return;
+    }
+
+    if (newText) {
+      onUpdate(id, newText);
       setIsEditing(false);
       setEditText("");
     }
