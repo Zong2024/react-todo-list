@@ -1,19 +1,4 @@
-import { useState } from "react";
-
-const InputTask = ({ setTodo }) => {
-  const [task, setTask] = useState("");
-
-  const addTodo = (e) => {
-    e.preventDefault();
-    if (task.trim()) {
-      setTodo((prev) => [
-        { id: Date.now(), text: task.trim(), completed: false },
-        ...prev,
-      ]);
-
-      setTask("");
-    }
-  };
+const InputTask = ({ addTodo, task, setTask }) => {
   return (
     <>
       <form onSubmit={addTodo}>

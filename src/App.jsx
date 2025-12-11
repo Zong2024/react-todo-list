@@ -1,20 +1,50 @@
 import { useState } from "react";
-import TodoItems from "./page/TodoItems";
-import InputTask from "./page/InputTask";
+import TodoItems from "./component/TodoItems";
+import InputTask from "./component/InputTask";
+import FilterSelect from "./component/FilterSelect";
 
 function App() {
-  const [todo, setTodo] = useState([]);
-
+  const [task, setTask] = useState("");
+  const [todos, setTodos] = useState([]);
   const [filterState, setFilterState] = useState("all");
 
-  const filterTodo = () => {
+  const addTodo = (e) => {
+    e.preventDefault();
+    if (task.trim()) {
+      setTodos((prev) => [
+        { id: Date.now(), text: task.trim(), completed: false },
+        ...prev,
+      ]);
+
+      setTask("");
+    }
+  };
+
+  const updateTodo = (id, text) => {
+    setTodos((prev) =>
+      prev.map((todo) => (todo.id === id ? { ...todo, text } : todo))
+    );
+  };
+  const deleteTodo = (id) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
+
+  const toggleCompleted = (id) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
+
+  const filterTodos = () => {
     switch (filterState) {
       case "completed":
-        return todo.filter((item) => item.completed === true);
+        return todos.filter((item) => item.completed === true);
       case "uncompleted":
-        return todo.filter((item) => item.completed === false);
+        return todos.filter((item) => item.completed === false);
       default:
-        return todo;
+        return todos;
     }
   };
 
@@ -26,35 +56,29 @@ function App() {
           <div className="col-6">
             <div className="card">
               <div className="card-body">
-                <InputTask setTodo={setTodo}></InputTask>
+                <InputTask
+                  addTodo={addTodo}
+                  task={task}
+                  setTask={setTask}
+                ></InputTask>
 
                 <ul className="list-group mt-4">
-                  {todo.length < 1 ? (
+                  {todos.length < 1 ? (
                     <h4 className="text-center">目前沒有任務</h4>
                   ) : (
                     <>
-                      <div className="my-4">
-                        <label htmlFor="filter-select">Status</label>
-                        <select
-                          className="form-select mt-1"
-                          value={filterState}
-                          id="filter-select"
-                          onChange={(e) => {
-                            setFilterState(e.target.value);
-                          }}
-                        >
-                          <option value="all">全部</option>
-                          <option value="completed">已完成</option>
-                          <option value="uncompleted">未完成</option>
-                        </select>
-                      </div>
+                      <FilterSelect
+                        filterState={filterState}
+                        setFilterState={setFilterState}
+                      ></FilterSelect>
 
-                      {filterTodo().map((item) => (
+                      {filterTodos().map((todo) => (
                         <TodoItems
-                          key={item.id}
-                          item={item}
-                          setTodo={setTodo}
+                          key={todo.id}
                           todo={todo}
+                          onUpdate={updateTodo}
+                          onDelete={deleteTodo}
+                          onToggle={toggleCompleted}
                         ></TodoItems>
                       ))}
                     </>
