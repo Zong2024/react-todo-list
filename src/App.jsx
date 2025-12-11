@@ -73,13 +73,14 @@ function App() {
                       ></FilterSelect>
 
                       {filterTodos().map((todo) => (
-                        <TodoItems
-                          key={todo.id}
-                          todo={todo}
-                          onUpdate={updateTodo}
-                          onDelete={deleteTodo}
-                          onToggle={toggleCompleted}
-                        ></TodoItems>
+                        <li className="d-flex fs-4 mt-2" key={todo.id}>
+                          <TodoItems
+                            todo={todo}
+                            onUpdate={updateTodo}
+                            onDelete={deleteTodo}
+                            onToggle={toggleCompleted}
+                          ></TodoItems>
+                        </li>
                       ))}
                     </>
                   )}

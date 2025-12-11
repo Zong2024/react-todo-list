@@ -36,28 +36,26 @@ const TodoItems = ({ todo, onUpdate, onDelete, onToggle }) => {
 
   return (
     <>
-      <li className="d-flex fs-4 mt-2">
-        {!isEditing ? (
-          <>
-            <TodoDisplay todo={todo} onToggle={onToggle}></TodoDisplay>
-            <EditButton todo={todo} startEdit={startEdit}></EditButton>
-            <DeleteButton todo={todo} deleteTask={deleteTask}></DeleteButton>
-          </>
-        ) : (
-          <>
-            <EditInput
-              todo={todo}
-              saveEdit={saveEdit}
-              cancelEdit={cancelEdit}
-              editText={editText}
-              setEditText={setEditText}
-              isEditing={isEditing}
-            ></EditInput>
-            <SaveButton todo={todo} saveEdit={saveEdit}></SaveButton>
-            <DeleteButton todo={todo} deleteTask={deleteTask}></DeleteButton>
-          </>
-        )}
-      </li>
+      {!isEditing ? (
+        <>
+          <TodoDisplay todo={todo} onToggle={onToggle}></TodoDisplay>
+          <EditButton todo={todo} startEdit={startEdit}></EditButton>
+          <DeleteButton todo={todo} deleteTask={deleteTask}></DeleteButton>
+        </>
+      ) : (
+        <>
+          <EditInput
+            todo={todo}
+            saveEdit={saveEdit}
+            cancelEdit={cancelEdit}
+            editText={editText}
+            setEditText={setEditText}
+            isEditing={isEditing}
+          ></EditInput>
+          <SaveButton todo={todo} saveEdit={saveEdit}></SaveButton>
+          <DeleteButton todo={todo} deleteTask={deleteTask}></DeleteButton>
+        </>
+      )}
     </>
   );
 };
