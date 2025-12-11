@@ -62,16 +62,15 @@ function App() {
                   setNewTaskText={setNewTaskText}
                 ></InputTask>
 
-                <ul className="list-group mt-4">
-                  {todos.length < 1 ? (
-                    <h4 className="text-center">目前沒有任務</h4>
-                  ) : (
-                    <>
-                      <FilterSelect
-                        filterState={filterState}
-                        setFilterState={setFilterState}
-                      ></FilterSelect>
-
+                {!todos.length ? (
+                  <h4 className="text-center my-4">目前沒有任務</h4>
+                ) : (
+                  <>
+                    <FilterSelect
+                      filterState={filterState}
+                      setFilterState={setFilterState}
+                    ></FilterSelect>
+                    <ul className="list-group">
                       {filterTodos().map((todo) => (
                         <li className="d-flex fs-4 mt-2" key={todo.id}>
                           <TodoItems
@@ -82,9 +81,9 @@ function App() {
                           ></TodoItems>
                         </li>
                       ))}
-                    </>
-                  )}
-                </ul>
+                    </ul>
+                  </>
+                )}
               </div>
             </div>
           </div>
